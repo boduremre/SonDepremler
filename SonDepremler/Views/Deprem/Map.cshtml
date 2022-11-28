@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Harita";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/lib/leaflet/leaflet.css" />
+
+    <style type="text/css">
+        #map {
+            min-height: 500px;
+        }
+    </style>
+}
+
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="card-header d-flex justify-content-between align-items-center">
+                <b>Depreme Ait Bilgiler</b>
+                <a asp-action="Index" asp-route-take="100" class="btn btn-sm btn-primary"><< Geri</a>
+                <!-- Wrap with <div>...buttons...</div> if you have multiple buttons -->
+            </h5>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Tarih Saat</th>
+                            <th scope="col">Enlem(N)</th>
+                            <th scope="col">Boylam(E)</th>
+                            <th scope="col">Derinlik(km)</th>
+                            <th scope="col">Büyüklük(ML)</th>
+                            <th scope="col">Yer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@ViewBag.Tarih</td>
+                            <td>@ViewBag.Enlem</td>
+                            <td>@ViewBag.Boylam</td>
+                            <td>@ViewBag.Derinlik</td>
+                            <td>@ViewBag.Siddet</td>
+                            <td>@ViewBag.Yer</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <b>Harita</b>
+            </div>
+            <div class="card-body">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/leaflet/leaflet.js"></script>
+    <script type="text/javascript">
+        var map = L.map('map').setView([@ViewBag.Enlem, @ViewBag.Boylam], 13);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var polygon = L.polygon([
+            [@ViewBag.Enlem, @ViewBag.Boylam],
+        ]).addTo(map);
+
+        var circle = L.circle([@ViewBag.Enlem, @ViewBag.Boylam], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(map);
+    </script>
+}
