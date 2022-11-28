@@ -10,13 +10,17 @@ namespace SonDepremler.Models
         public Siddet Siddeti { get; set; }
         public string Yer { get; set; }
         public string CozumNiteligi { get; set; }
-
         private List<string> CrawledNodes { get; set; }
+
         public Deprem()
+        {          
+        }
+
+        public void GetData(int Take)
         {
             CrawlUtils crawl = new CrawlUtils("http://www.koeri.boun.edu.tr/scripts/lst8.asp");
             var temp = crawl.CrawlNodes("/html/body/pre").FirstOrDefault().InnerHtml;
-            CrawledNodes = temp.Split('\n').Skip(7).Take(500).ToList();
+            CrawledNodes = temp.Split('\n').Skip(7).Take(Take).ToList();
         }
 
         public List<Deprem> Get(int DateDiff = 0)
@@ -83,18 +87,5 @@ namespace SonDepremler.Models
             return result;
         }
 
-    }
-
-    public class Konum
-    {
-        public double Enlem { get; set; }
-        public double Boylam { get; set; }
-        public double Derinlik { get; set; }
-    }
-    public class Siddet
-    {
-        public double MD { get; set; }
-        public double ML { get; set; }
-        public double MW { get; set; }
     }
 }

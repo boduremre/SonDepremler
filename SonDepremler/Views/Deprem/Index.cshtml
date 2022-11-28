@@ -3,91 +3,137 @@
     ViewData["Title"] = "Son Depremler";
 }
 
-<div class="row">
-    <div class="col-12">
-        <div class="text-center">
-            <h1 class="display-4">@ViewData["Title"]</h1>
-        </div>
-    </div>
-</div>
-
 <div class="row mt-5">
     <div class="col-12">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Tarih</th>
-                    <th scope="col">Saat</th>
-                    <th scope="col">Enlem(N)</th>
-                    <th scope="col">Boylam(E)</th>
-                    <th scope="col">Derinlik(km)</th>
-                    <th scope="col">Büyüklük(ML)</th>
-                    <th scope="col">Yer</th>
-                    <th scope="col">Çözüm Niteliği</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var deprem in ViewBag.SonDepremler)
-                {
-                    if (deprem.Siddeti.ML > 4.9)
-                    {
-                        <tr class="table-danger">
-                            <td>@deprem.Tarih.ToShortDateString()</td>
-                            <td>@deprem.Tarih.ToShortTimeString()</td>
-                            <td class="text-center">@deprem.Konumu.Enlem</td>
-                            <td class="text-center">@deprem.Konumu.Boylam</td>
-                            <td class="text-center">@deprem.Konumu.Derinlik</td>
-                            <td class="text-center">@deprem.Siddeti.ML</td>
-                            <td>@deprem.Yer</td>
-                            <td class="text-center">@deprem.CozumNiteligi</td>
-                        </tr>
-                    }
-                    else if (deprem.Siddeti.ML > 2.90 && deprem.Siddeti.ML < 5)
-                    {
-                        <tr class="table-warning">
-                            <td>@deprem.Tarih.ToShortDateString()</td>
-                            <td>@deprem.Tarih.ToShortTimeString()</td>
-                            <td class="text-center">@deprem.Konumu.Enlem</td>
-                            <td class="text-center">@deprem.Konumu.Boylam</td>
-                            <td class="text-center">@deprem.Konumu.Derinlik</td>
-                            <td class="text-center">@deprem.Siddeti.ML</td>
-                            <td>@deprem.Yer</td>
-                            <td class="text-center">@deprem.CozumNiteligi</td>
-                        </tr>
-                    }
-                    else if (deprem.Siddeti.ML > 1.49 && deprem.Siddeti.ML < 3)
-                    {
-                        <tr class="table-info">
-                            <td>@deprem.Tarih.ToShortDateString()</td>
-                            <td>@deprem.Tarih.ToShortTimeString()</td>
-                            <td class="text-center">@deprem.Konumu.Enlem</td>
-                            <td class="text-center">@deprem.Konumu.Boylam</td>
-                            <td class="text-center">@deprem.Konumu.Derinlik</td>
-                            <td class="text-center">@deprem.Siddeti.ML</td>
-                            <td>@deprem.Yer</td>
-                            <td class="text-center">@deprem.CozumNiteligi</td>
-                        </tr>
-                    }
-                    else
-                    {
+        <div class="card">
+            <h5 class="card-header d-flex justify-content-between align-items-center">
+                <b>@ViewData["Title"] (Son @ViewBag.Take Kayıt)</b>
+                <a asp-action="Index" class="btn btn-sm btn-success">Yenile</a>
+                <!-- Wrap with <div>...buttons...</div> if you have multiple buttons -->
+            </h5>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>@deprem.Tarih.ToShortDateString()</td>
-                            <td>@deprem.Tarih.ToShortTimeString()</td>
-                            <td class="text-center">@deprem.Konumu.Enlem</td>
-                            <td class="text-center">@deprem.Konumu.Boylam</td>
-                            <td class="text-center">@deprem.Konumu.Derinlik</td>
-                            <td class="text-center">@deprem.Siddeti.ML</td>
-                            <td>@deprem.Yer</td>
-                            <td class="text-center">@deprem.CozumNiteligi</td>
+                            <th scope="col">Tarih</th>
+                            <th scope="col">Saat</th>
+                            <th scope="col">Enlem(N)</th>
+                            <th scope="col">Boylam(E)</th>
+                            <th scope="col">Derinlik(km)</th>
+                            <th scope="col">Büyüklük(ML)</th>
+                            <th scope="col">Yer</th>
+                            <th scope="col">Çözüm Niteliği</th>
+                            <th scope="col">Harita</th>
                         </tr>
-                    }
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="7"><small style="font-size: xx-small;"><b>Veri Kaynağı: </b>Boğaziçi Üniversitesi Kandilli Rasathanesi ve Deprem Araştırma Enstitüsü Bölgesel Deprem-Tsunami İzleme Ve Değerlendirme Merkezi</small></td>
-                </tr>
-            </tfoot>
-        </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var deprem in ViewBag.SonDepremler)
+                        {
+                            if (deprem.Siddeti.ML > 4.9)
+                            {
+                                <tr class="table-danger">
+                                    <td>@deprem.Tarih.ToShortDateString()</td>
+                                    <td>@deprem.Tarih.ToShortTimeString()</td>
+                                    <td class="text-center">@deprem.Konumu.Enlem</td>
+                                    <td class="text-center">@deprem.Konumu.Boylam</td>
+                                    <td class="text-center">@deprem.Konumu.Derinlik</td>
+                                    <td class="text-center">@deprem.Siddeti.ML</td>
+                                    <td>@deprem.Yer</td>
+                                    <td class="text-center">@deprem.CozumNiteligi</td>
+                                    <td class="text-center">
+                                        <a class="btn-link"
+                                           asp-controller="Deprem"
+                                           asp-action="Map"
+                                           asp-route-tarih="@deprem.Tarih.ToString()"
+                                           asp-route-enlem="@deprem.Konumu.Enlem"
+                                           asp-route-boylam="@deprem.Konumu.Boylam"
+                                           asp-route-derinlik="@deprem.Konumu.Derinlik"
+                                           asp-route-siddet="@deprem.Siddeti.ML"
+                                           asp-route-yer="@deprem.Yer">Haritada Göster</a>
+                                    </td>
+                                </tr>
+                            }
+                            else if (deprem.Siddeti.ML > 2.90 && deprem.Siddeti.ML < 5)
+                            {
+                                <tr class="table-warning">
+                                    <td>@deprem.Tarih.ToShortDateString()</td>
+                                    <td>@deprem.Tarih.ToShortTimeString()</td>
+                                    <td class="text-center">@deprem.Konumu.Enlem</td>
+                                    <td class="text-center">@deprem.Konumu.Boylam</td>
+                                    <td class="text-center">@deprem.Konumu.Derinlik</td>
+                                    <td class="text-center">@deprem.Siddeti.ML</td>
+                                    <td>@deprem.Yer</td>
+                                    <td class="text-center">@deprem.CozumNiteligi</td>
+                                    <td class="text-center">
+                                        <a class="btn-link"
+                                           asp-controller="Deprem"
+                                           asp-action="Map"
+                                           asp-route-tarih="@deprem.Tarih.ToString()"
+                                           asp-route-enlem="@deprem.Konumu.Enlem"
+                                           asp-route-boylam="@deprem.Konumu.Boylam"
+                                           asp-route-derinlik="@deprem.Konumu.Derinlik"
+                                           asp-route-siddet="@deprem.Siddeti.ML"
+                                           asp-route-yer="@deprem.Yer">Haritada Göster</a>
+                                    </td>
+                                </tr>
+                            }
+                            else if (deprem.Siddeti.ML > 1.49 && deprem.Siddeti.ML < 3)
+                            {
+                                <tr class="table-info">
+                                    <td>@deprem.Tarih.ToShortDateString()</td>
+                                    <td>@deprem.Tarih.ToShortTimeString()</td>
+                                    <td class="text-center">@deprem.Konumu.Enlem</td>
+                                    <td class="text-center">@deprem.Konumu.Boylam</td>
+                                    <td class="text-center">@deprem.Konumu.Derinlik</td>
+                                    <td class="text-center">@deprem.Siddeti.ML</td>
+                                    <td>@deprem.Yer</td>
+                                    <td class="text-center">@deprem.CozumNiteligi</td>
+                                    <td class="text-center">
+                                        <a class="btn-link"
+                                           asp-controller="Deprem"
+                                           asp-action="Map"
+                                           asp-route-tarih="@deprem.Tarih.ToString()"
+                                           asp-route-enlem="@deprem.Konumu.Enlem"
+                                           asp-route-boylam="@deprem.Konumu.Boylam"
+                                           asp-route-derinlik="@deprem.Konumu.Derinlik"
+                                           asp-route-siddet="@deprem.Siddeti.ML"
+                                           asp-route-yer="@deprem.Yer">Haritada Göster</a>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>@deprem.Tarih.ToShortDateString()</td>
+                                    <td>@deprem.Tarih.ToShortTimeString()</td>
+                                    <td class="text-center">@deprem.Konumu.Enlem</td>
+                                    <td class="text-center">@deprem.Konumu.Boylam</td>
+                                    <td class="text-center">@deprem.Konumu.Derinlik</td>
+                                    <td class="text-center">@deprem.Siddeti.ML</td>
+                                    <td>@deprem.Yer</td>
+                                    <td class="text-center">@deprem.CozumNiteligi</td>
+                                    <td class="text-center">
+                                        <a class="btn-link"
+                                           asp-controller="Deprem"
+                                           asp-action="Map"
+                                           asp-route-tarih="@deprem.Tarih.ToString()"
+                                           asp-route-enlem="@deprem.Konumu.Enlem"
+                                           asp-route-boylam="@deprem.Konumu.Boylam"
+                                           asp-route-derinlik="@deprem.Konumu.Derinlik"
+                                           asp-route-siddet="@deprem.Siddeti.ML"
+                                           asp-route-yer="@deprem.Yer">Haritada Göster</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7"><small style="font-size: xx-small;"><b>Veri Kaynağı: </b>Boğaziçi Üniversitesi Kandilli Rasathanesi ve Deprem Araştırma Enstitüsü Bölgesel Deprem-Tsunami İzleme Ve Değerlendirme Merkezi</small></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

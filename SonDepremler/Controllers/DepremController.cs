@@ -14,10 +14,33 @@ namespace SonDepremler.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        [Route("/Deprem/Index/{take}")]
+        public IActionResult Index(int take)
         {
+            if (take == 0)
+            {
+                take = 100;
+            }
+
             Deprem deprem = new Deprem();
+            deprem.GetData(take);
             ViewBag.SonDepremler = deprem.Get(0);
+            ViewBag.Take = take;
+            return View();
+        }
+
+        [HttpGet]
+        [Route("/Deprem/Map/{tarih}/{enlem}/{boylam}/{derinlik}/{siddet}/{yer}")]
+        public IActionResult Map(string tarih, string enlem, string boylam, string derinlik, string siddet, string yer)
+        {
+            ViewBag.Tarih = tarih;
+            ViewBag.Enlem = enlem.Replace(",", ".");
+            ViewBag.Boylam = boylam.Replace(",", "."); ;
+            ViewBag.Derinlik = derinlik.Replace(",", "."); ;
+            ViewBag.Siddet = siddet.Replace(",", "."); ;
+            ViewBag.Yer = yer;
+
             return View();
         }
 
