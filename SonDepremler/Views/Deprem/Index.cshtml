@@ -1,0 +1,93 @@
+﻿@model IEnumerable<SonDepremler.Models.Deprem>
+@{
+    ViewData["Title"] = "Son Depremler";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="text-center">
+            <h1 class="display-4">@ViewData["Title"]</h1>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Tarih</th>
+                    <th scope="col">Saat</th>
+                    <th scope="col">Enlem(N)</th>
+                    <th scope="col">Boylam(E)</th>
+                    <th scope="col">Derinlik(km)</th>
+                    <th scope="col">Büyüklük(ML)</th>
+                    <th scope="col">Yer</th>
+                    <th scope="col">Çözüm Niteliği</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var deprem in ViewBag.SonDepremler)
+                {
+                    if (deprem.Siddeti.ML > 4.9)
+                    {
+                        <tr class="table-danger">
+                            <td>@deprem.Tarih.ToShortDateString()</td>
+                            <td>@deprem.Tarih.ToShortTimeString()</td>
+                            <td class="text-center">@deprem.Konumu.Enlem</td>
+                            <td class="text-center">@deprem.Konumu.Boylam</td>
+                            <td class="text-center">@deprem.Konumu.Derinlik</td>
+                            <td class="text-center">@deprem.Siddeti.ML</td>
+                            <td>@deprem.Yer</td>
+                            <td class="text-center">@deprem.CozumNiteligi</td>
+                        </tr>
+                    }
+                    else if (deprem.Siddeti.ML > 2.90 && deprem.Siddeti.ML < 5)
+                    {
+                        <tr class="table-warning">
+                            <td>@deprem.Tarih.ToShortDateString()</td>
+                            <td>@deprem.Tarih.ToShortTimeString()</td>
+                            <td class="text-center">@deprem.Konumu.Enlem</td>
+                            <td class="text-center">@deprem.Konumu.Boylam</td>
+                            <td class="text-center">@deprem.Konumu.Derinlik</td>
+                            <td class="text-center">@deprem.Siddeti.ML</td>
+                            <td>@deprem.Yer</td>
+                            <td class="text-center">@deprem.CozumNiteligi</td>
+                        </tr>
+                    }
+                    else if (deprem.Siddeti.ML > 1.49 && deprem.Siddeti.ML < 3)
+                    {
+                        <tr class="table-info">
+                            <td>@deprem.Tarih.ToShortDateString()</td>
+                            <td>@deprem.Tarih.ToShortTimeString()</td>
+                            <td class="text-center">@deprem.Konumu.Enlem</td>
+                            <td class="text-center">@deprem.Konumu.Boylam</td>
+                            <td class="text-center">@deprem.Konumu.Derinlik</td>
+                            <td class="text-center">@deprem.Siddeti.ML</td>
+                            <td>@deprem.Yer</td>
+                            <td class="text-center">@deprem.CozumNiteligi</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@deprem.Tarih.ToShortDateString()</td>
+                            <td>@deprem.Tarih.ToShortTimeString()</td>
+                            <td class="text-center">@deprem.Konumu.Enlem</td>
+                            <td class="text-center">@deprem.Konumu.Boylam</td>
+                            <td class="text-center">@deprem.Konumu.Derinlik</td>
+                            <td class="text-center">@deprem.Siddeti.ML</td>
+                            <td>@deprem.Yer</td>
+                            <td class="text-center">@deprem.CozumNiteligi</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7"><small style="font-size: xx-small;"><b>Veri Kaynağı: </b>Boğaziçi Üniversitesi Kandilli Rasathanesi ve Deprem Araştırma Enstitüsü Bölgesel Deprem-Tsunami İzleme Ve Değerlendirme Merkezi</small></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
