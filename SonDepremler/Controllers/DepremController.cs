@@ -15,7 +15,7 @@ namespace SonDepremler.Controllers
         }
 
         [HttpGet]
-        [Route("/Deprem/Index/{take}")]
+        //[Route("~/Deprem/Index/{take}")]
         public IActionResult Index(int take)
         {
             if (take == 0)
